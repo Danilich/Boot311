@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Show User</title>
+</head>
+<body>
+
+
+<h2>User details</h2>
+<a sec:authorize="!isAnonymous()" th:href="@{/logout}">
+    <button type="button">Logout</button>
+</a>
+<form th:object="${user}">
+    <label for="firstName">First name:</label><br>
+    <input disabled id="firstName" placeholder="Enter First Name" required type="text" th:field="*{firstName} "/><br>
+    <label for="lastName">Last name:</label><br>
+    <input disabled id="lastName" placeholder="Enter Last Name" required type="text" th:field="*{lastName}"/><br>
+    <label for="email">Email:</label><br>
+    <input disabled id="email" placeholder="Enter Email" required type="text" th:field="*{email}"/><br><br>
+
+
+</form>
+<table>
+    <tr>
+        <th>User status:</th>
+    </tr>
+    <tr th:each="role : ${user.getRoles()}">
+        <td th:text="${role.getAuthority()}">role</td>
+    </tr>
+</table>
+</body>
+</html>

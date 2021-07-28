@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title>UserList</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+<h1>User list</h1>
+
+<table>
+    <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Roles</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.getFirstName()}">first_name</td>
+        <td th:text="${user.getLastName()}">last_name</td>
+        <td th:text="${user.getEmail()}">email</td>
+
+        <td>
+            <div th:each="role : ${user.getAuthorities()}">
+                <span th:utext="${role.getAuthority()}"></span>
+            </div>
+        </td>
+
+
+        <td><a th:href="@{/admin/users/{id}/edit(id=${user.getId()})}">
+            <button type="button">Edit</button>
+        </a></td>
+
+        <td>
+            <form style="margin: 0" th:method="Delete" th:action="@{/admin/users/{id}/delete(id=${user.getId()})}">
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+
+    </tr>
+</table>
+<br><br>
+
+<a href="/admin/users/new">
+    <button type="button">Add User</button>
+</a>
+<a sec:authorize="!isAnonymous()" th:href="@{/logout}">
+    <button type="button">Logout</button>
+</a>
+
+</body>
+
+</html>
